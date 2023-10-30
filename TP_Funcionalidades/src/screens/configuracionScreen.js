@@ -7,7 +7,25 @@ export default function Configuracion() {
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder=""
+          placeholder="Numero telefónico"
+          onChangeText={(email) => setEmail(email)}
+          returnKeyType='next'
+         // onSubmitEditing={()=>{passwordRef.current.focus();}}
+        /> 
+     </View>
+     <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Url video"
+          onChangeText={(email) => setEmail(email)}
+          returnKeyType='next'
+         // onSubmitEditing={()=>{passwordRef.current.focus();}}
+        /> 
+     </View>
+     <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Url musica de fondo"
           onChangeText={(email) => setEmail(email)}
           returnKeyType='next'
          // onSubmitEditing={()=>{passwordRef.current.focus();}}
