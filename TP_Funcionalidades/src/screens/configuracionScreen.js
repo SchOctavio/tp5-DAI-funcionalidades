@@ -1,12 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native';
+import React, { useState, useRef } from 'react';
 import BotonReutilizable from '../components/botonReutilizable';
 import InfoService from '../class/infoService';
+import Accelerometerr from '../components/Accelerometer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-export default function Configuracion() {
+export default function Configuracion({navigation}) {
   const [numero, setNumero] = useState(0);
   const [url, setURL] = useState('');
   const [fondo, setFondo] = useState('');
+
+
 
   const ingresarDatos = async ()=>{
     let info={
@@ -53,6 +58,7 @@ export default function Configuracion() {
      style={styles.loginDiferente}          
      texto="subir perfil"
      />
+    <Accelerometerr/> 
     </SafeAreaView>
   );
 }
@@ -70,7 +76,19 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     marginTop: 15,
     marginBottom: 15,
-  
-
-  }
+  },
+  TextInput: {
+    height: 50,
+    flex: 1,
+    padding: 10,
+    marginLeft: 20,
+  },
+  inputView: {
+    backgroundColor: "#4b9197",
+    borderRadius: 30,
+    width: "70%",
+    height: 45,
+    marginBottom: 20,
+    alignItems: "center",
+ }
 });
