@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 import BotonReutilizable from '../components/botonReutilizable';
 import InfoService from '../class/infoService';
-import InfoService from '../class/infoService';
+
 
 export default function Emergencia({navigation}) {
   let info = InfoService.obtenerCredenciales();
