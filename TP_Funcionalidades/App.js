@@ -4,6 +4,7 @@ import Configuracion from './src/screens/configuracionScreen';
 import AcercaDe from './src/screens/AcercaDeScren';
 import CambioFondo from './src/screens/cambioFondoScreen';
 import Multimedia from './src/screens/multimediaScreen';
+import Emergencia from './src/screens/emergenciaScreen';
 export default function App() {
   return (
     <NavigationContainer>
@@ -12,6 +13,11 @@ export default function App() {
         name="Configuracion"
         component={Configuracion}
         options={{title: 'titulo... Configuración', headerShown: false}}
+        />
+        <Stack.Screen
+        name="Emergencia"
+        component={Emergencia}
+        options={{title: 'titulo... Emergencia', headerShown: false}}
         />
       <Stack.Screen
         name="AcercaDe"

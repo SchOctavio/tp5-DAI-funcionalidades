@@ -20,6 +20,7 @@ export default function Configuracion({navigation}) {
       fondo:fondo
     }
     InfoService.almacenarInfo(info);
+    navigation.navigate('Emergencia');
   }
   return (
     <SafeAreaView style={styles.container}>
@@ -58,7 +59,6 @@ export default function Configuracion({navigation}) {
      style={styles.loginDiferente}          
      texto="subir perfil"
      />
-    <Accelerometerr/> 
     </SafeAreaView>
   );
 }
