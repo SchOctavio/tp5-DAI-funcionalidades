@@ -21,6 +21,8 @@ export default function Configuracion({navigation}) {
     }
     InfoService.almacenarInfo(info);
     navigation.navigate('Emergencia');
+
+    
   }
   return (
     <SafeAreaView style={styles.container}>

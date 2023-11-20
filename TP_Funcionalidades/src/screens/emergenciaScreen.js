@@ -1,47 +1,71 @@
 import { StatusBar } from 'expo-status-bar';
-
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Linking } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 import BotonReutilizable from '../components/botonReutilizable';
 import InfoService from '../class/infoService';
 import { Accelerometer } from 'expo-sensors';
 import ShakeEvent from 'react-native-shake-event';
+import Menu from '../components/menu';
 
-export default function Emergencia({navigation}) {
+export default function Emergencia({ navigation }) {
+
+  const [{ x, y, z }, setData] = useState({
+    x: 0,
+    y: 0,
+    z: 0,
+  });
+  const [subscription, setSubscription] = useState(null);
+  const [numero, setNumero] = useState(null);
   
-  
-  const [numero, setNumero]= useState(null);
-  traerInfo();
+
+  const _slow = () => Accelerometer.setUpdateInterval(1000);
+  const _fast = () => Accelerometer.setUpdateInterval(16);
+
   useEffect(() => {
-    //Linking.openURL(`whatsapp://send?phone=${numero} &text=te estoy mandando un mensaje`);
-    
-    // Configura el evento de agitar
-    ShakeEvent.addListener(() => {
-      Accelerometer.setUpdateInterval(1000);
-      // Lógica que se ejecutará al agitar el dispositivo
-      console.log('¡Dispositivo agitado!');
-      // Llama a la función que desees ejecutar al agitar
-      mandarWhatsapp();
-    });
-
-    // Limpia el evento cuando el componente se desmonta
-    return () => {
-      ShakeEventExpo.removeListener();
-    };
+    traerInfo();
+    _subscribe();
+    _slow();
+    return () => _unsubscribe();
   }, []);
+
+
   const mandarWhatsapp = () => {
     const whatsappNo = "549" + numero
     const whatsappMsg = "hola";
     Linking.openURL(`whatsapp://send?phone=${whatsappNo}&text=${whatsappMsg}`);
   }
-  const traerInfo= async() =>{
+  const traerInfo = async () => {
     let info = await InfoService.obtenerCredenciales();
     console.log("la info de async storage", info);
     setNumero(info.numero);
   }
+
+  const _subscribe = () => {
+    let auxiliarX;
+    setSubscription(Accelerometer.addListener(async (accelerometerData) => {
+      auxiliarX = x;
+      if (accelerometerData.x < auxiliarX) {
+        if ((auxiliarX - accelerometerData.x) > 0.5) {
+          mandarWhatsapp();
+        }
+      } else {
+        if ((accelerometerData.x - auxiliarX) > 0.5) {
+          if ((auxiliarX - accelerometerData.x) > 0.5) {
+            mandarWhatsapp();
+          }
+        }
+      }
+      setData(accelerometerData);
+    }));
+  };
+  const _unsubscribe = () => {
+    subscription && subscription.remove();
+    setSubscription(null);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <Text>¡Agita tu dispositivo para llamar a la función!</Text>
+      <Menu navigation={navigation}/> {/*no muestra el menu no se por que*/}
     </SafeAreaView>
   );
 }
@@ -73,5 +97,5 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 20,
     alignItems: "center",
- }
+  }
 });
