@@ -5,6 +5,11 @@ import AcercaDe from './src/screens/AcercaDeScren';
 import CambioFondo from './src/screens/cambioFondoScreen';
 import Multimedia from './src/screens/multimediaScreen';
 import Emergencia from './src/screens/emergenciaScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import {createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
+
 export default function App() {
   return (
     <NavigationContainer>
