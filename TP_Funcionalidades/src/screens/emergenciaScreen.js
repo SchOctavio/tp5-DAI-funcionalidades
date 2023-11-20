@@ -1,24 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 
-import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput, Linking } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 import BotonReutilizable from '../components/botonReutilizable';
 import InfoService from '../class/infoService';
-
+import { Accelerometer } from 'expo-sensors';
+import ShakeEvent from 'react-native-shake-event';
 
 export default function Emergencia({navigation}) {
-  let info = InfoService.obtenerCredenciales();
-  console.log("la info de async storage", info);
-  const [numero, setNumero]= useState(info);
+  
+  
+  const [numero, setNumero]= useState(null);
+  traerInfo();
   useEffect(() => {
-    
+    //Linking.openURL(`whatsapp://send?phone=${numero} &text=te estoy mandando un mensaje`);
     
     // Configura el evento de agitar
-    ShakeEventExpo.addListener(() => {
+    ShakeEvent.addListener(() => {
+      Accelerometer.setUpdateInterval(1000);
       // Lógica que se ejecutará al agitar el dispositivo
       console.log('¡Dispositivo agitado!');
       // Llama a la función que desees ejecutar al agitar
-      // Ejemplo: llama a la función `llamarFuncion` al agitar el dispositivo
       mandarWhatsapp();
     });
 
@@ -29,12 +31,17 @@ export default function Emergencia({navigation}) {
   }, []);
   const mandarWhatsapp = () => {
     const whatsappNo = "549" + numero
-    const whatsappMsg = "hola"
+    const whatsappMsg = "hola";
     Linking.openURL(`whatsapp://send?phone=${whatsappNo}&text=${whatsappMsg}`);
+  }
+  const traerInfo= async() =>{
+    let info = await InfoService.obtenerCredenciales();
+    console.log("la info de async storage", info);
+    setNumero(info.numero);
   }
   return (
     <SafeAreaView style={styles.container}>
-      <p>¡Agita tu dispositivo para llamar a la función!</p>
+      <Text>¡Agita tu dispositivo para llamar a la función!</Text>
     </SafeAreaView>
   );
 }

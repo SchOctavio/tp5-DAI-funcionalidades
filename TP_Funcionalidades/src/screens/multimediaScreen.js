@@ -5,7 +5,18 @@ import BotonReutilizable from '../components/botonReutilizable';
 import InfoService from '../class/infoService';
 
 export default function Multimedia({navigation}) {
-  
+  const [video, setVideo]= useState(null);
+  const [musica, setMusica]= useState(null);
+  traerInfo();
+
+
+  const traerInfo= async() =>{
+    let info = await InfoService.obtenerCredenciales();
+    console.log("la info de async storage", info);
+    setVideo(info.video);
+    setMusica(info.musica);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       
