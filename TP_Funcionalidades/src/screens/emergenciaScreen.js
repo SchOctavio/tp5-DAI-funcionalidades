@@ -22,23 +22,34 @@ export default function Emergencia({ navigation }) {
   const _fast = () => Accelerometer.setUpdateInterval(16);
 
   useEffect(() => {
-    traerInfo();
-    _subscribe();
-    _slow();
+    const fetchData = async () => {
+      await traerInfo();
+      _subscribe();
+      _slow();
+    };
+  
+    fetchData();
+  
     return () => _unsubscribe();
   }, []);
 
 
   const mandarWhatsapp = () => {
-    const whatsappNo = "549" + numero
+    const whatsappNo = "549" + numero;
+    console.log("numero mandar   wpp",numero);
     const whatsappMsg = "hola";
     Linking.openURL(`whatsapp://send?phone=${whatsappNo}&text=${whatsappMsg}`);
   }
   const traerInfo = async () => {
-    let info = await InfoService.obtenerCredenciales();
-    console.log("la info de async storage", info);
-    setNumero(info.numero);
-  }
+    try {
+      let info = await InfoService.obtenerCredenciales();
+      console.log("la info de async storage", info);
+      setNumero(info.numero);
+      console.log(info.numero);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const _subscribe = () => {
     let auxiliarX;
@@ -47,11 +58,13 @@ export default function Emergencia({ navigation }) {
       if (accelerometerData.x < auxiliarX) {
         if ((auxiliarX - accelerometerData.x) > 0.5) {
           mandarWhatsapp();
+          console.log("numero if wpp",numero);
         }
       } else {
         if ((accelerometerData.x - auxiliarX) > 0.5) {
           if ((auxiliarX - accelerometerData.x) > 0.5) {
             mandarWhatsapp();
+            console.log("numero else wpp",numero);
           }
         }
       }
@@ -64,8 +77,9 @@ export default function Emergencia({ navigation }) {
   };
   return (
     <SafeAreaView style={styles.container}>
+        <Menu navigation={navigation}/> 
       <Text>¡Agita tu dispositivo para llamar a la función!</Text>
-      <Menu navigation={navigation}/> {/*no muestra el menu no se por que*/}
+    
     </SafeAreaView>
   );
 }
