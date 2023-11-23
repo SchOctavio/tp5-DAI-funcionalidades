@@ -45,7 +45,7 @@ export default function Emergencia({ navigation }) {
       let info = await InfoService.obtenerCredenciales();
       console.log("la info de async storage", info);
       setNumero(info.numero);
-      console.log(info.numero);
+      console.log(parseInt(info.numero));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -77,8 +77,9 @@ export default function Emergencia({ navigation }) {
   };
   return (
     <SafeAreaView style={styles.container}>
-        <Menu navigation={navigation}/> 
+         
       <Text>¡Agita tu dispositivo para llamar a la función!</Text>
+      <Menu navigation={navigation}/>
     
     </SafeAreaView>
   );

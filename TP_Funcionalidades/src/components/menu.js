@@ -31,7 +31,7 @@ export default function Menu({navigation}) {
       bottom: 0,
       left: 0,
       right: 0,
-      backgroundColor: 'f2f2f2' 
+      //backgroundColor: 'f2f2f2' 
 
     },
     
@@ -39,7 +39,7 @@ export default function Menu({navigation}) {
       fontSize: 18,
       fontWeight: 'bold',
       color: '#fff',
-      backgroundColor:'22b14c',
+      backgroundColor:'#22b14c',
       flex:1,
       justifyContent: 'center',
       alignItems: 'center',

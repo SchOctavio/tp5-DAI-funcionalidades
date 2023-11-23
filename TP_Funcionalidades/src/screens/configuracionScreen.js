@@ -17,10 +17,10 @@ export default function Configuracion({navigation}) {
     let info={
       numero:numero,
       url:url,
-      fondo:fondo
+      musica:fondo
     }
     InfoService.almacenarInfo(info);
-    navigation.navigate('Emergencia');
+    navigation.navigate('Multimedia');
 
     
   }

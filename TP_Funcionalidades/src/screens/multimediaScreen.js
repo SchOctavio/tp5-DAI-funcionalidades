@@ -10,14 +10,14 @@ export default function Multimedia({ navigation }) {
   const [video, setVideo] = useState(null);
   const [musica, setMusica] = useState(null);
   const [sonido, setSonido] = useState();
-  const [sonidoReproducioendo, setSonidoReproduciendo] = useState(false);
+  const [sonidoReproduciendo, setSonidoReproduciendo] = useState(false);
 
 
   const traerInfo = async () => {
     let info = await InfoService.obtenerCredenciales();
     console.log("la info de async storage", info);
-    setVideo(info.video);
-    setMusica(info.musica);
+    await setVideo(info.url);
+    await setMusica(info.video);
   }
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function Multimedia({ navigation }) {
   }, [sonido]);
 
   const reproducirMusica = async () => {
-    if (sonidoReproducioendo && sonido) {
+    if (sonidoReproduciendo && sonido) {
       setSonidoReproduciendo(false)
 
       await sonido.pauseAsync();
@@ -46,7 +46,7 @@ export default function Multimedia({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {video ? (
+      {/*{video ? (
         <>
           <Video
             style={styles.video}
@@ -67,10 +67,10 @@ export default function Multimedia({ navigation }) {
           <Text style={{ backgroundColor: 'white', fontSize: 15, width: '80%', textAlign: 'center' }}>No cargaste la url</Text>
         </>
       )}
-
+      */}
       {musica ? (
         <>
-          <Boton onPress={reproducirMusica} titulo={sonidoReproducioendo ? 'Pausar audio' : 'Reproducir audio'} style={styles.button2} />
+          <Boton onPress={reproducirMusica} titulo={sonidoReproduciendo ? 'Pausar audio' : 'Reproducir audio'} style={styles.button2} />
         </>
       ) : (
         <>

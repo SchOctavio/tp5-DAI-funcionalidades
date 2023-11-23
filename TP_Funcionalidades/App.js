@@ -7,10 +7,12 @@ import Multimedia from './src/screens/multimediaScreen';
 import Emergencia from './src/screens/emergenciaScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack';
-
+import CameraScreen from './src/screens/camara';
+import ImageScreen from './src/screens/image';
 const Stack = createStackNavigator();
 
 export default function App() {
+  const [imageGaleria, setImageGaleria] = useState("");
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Configuracion'>
@@ -39,6 +41,11 @@ export default function App() {
         component={Multimedia}
         options={{title:'Titulo ... Multimedia'}}
         />
+
+        <Stack.Screen name="Camera" component={CameraScreen} />
+        <Stack.Screen name="ImageScreen">
+          {(props) => <ImageScreen {...props} imageUri={imageGaleria} />}
+        </Stack.Screen>
       </Stack.Navigator>
       
     </NavigationContainer>
