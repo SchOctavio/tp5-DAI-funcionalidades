@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import appStyles from '../styles/appStyles.js';
+//import appStyles from '../styles/appStyles.js';
 
 export default function ImageScreen({ route, navigation }) {
 

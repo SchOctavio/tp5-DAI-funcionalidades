@@ -2,9 +2,9 @@ import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 const BotonReutilizable = ({ onPress, style, texto }) => {
     const handleOnPress = ()=>{
-       console.log("estoy haciendo algo :)");
+       /*console.log("estoy haciendo algo :)");
        let hoy = new Date();
-       console.log( "fecha y hora:"+ hoy);
+       console.log( "fecha y hora:"+ hoy);*/
        onPress();
       }
   return (

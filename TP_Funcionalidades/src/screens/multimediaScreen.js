@@ -17,25 +17,30 @@ export default function Multimedia({ navigation }) {
     let info = await InfoService.obtenerCredenciales();
     console.log("la info de async storage", info);
     await setVideo(info.url);
-    await setMusica(info.video);
+    await setMusica(info.musica);
   }
 
   useEffect(() => {
     traerInfo();
   }, []);
-  useEffect(() => {
 
+  useEffect(() => {
+    if (sonido) {
+      reproducirSonido();
+    }
   }, [sonido]);
 
   const reproducirMusica = async () => {
+    console.log("contenido de sonido:", sonido);
     if (sonidoReproduciendo && sonido) {
-      setSonidoReproduciendo(false)
-
+      setSonidoReproduciendo(false);
+      console.log('Unloading Sound');
       await sonido.pauseAsync();
       sonido.unloadAsync();
     } else {
       setSonidoReproduciendo(true);
-      const { sound } = await Audio.Sound.createAsync({ uri: musica }, { volume: 0.8 },);
+      console.log('Loading Sound');
+      const { sound } = await Audio.Sound.createAsync({ uri: musica }, { volume: 0.8 });
       setSonido(sound);
     }
   }
@@ -59,7 +64,7 @@ export default function Multimedia({ navigation }) {
             isLooping
             onPlaybackStatusUpdate={status => setStatus(() => status)}
           />
-          <Boton onPress={() => status.isPlaying ? video1.current.pauseAsync() : video1.current.playAsync()} titulo={status.isPlaying ? 'Pausar video' : 'Reproducir video'} style={styles.button1} />
+          <BotonReutilizable onPress={() => status.isPlaying ? video1.current.pauseAsync() : video1.current.playAsync()} titulo={status.isPlaying ? 'Pausar video' : 'Reproducir video'} style={styles.button1} />
 
         </>
       ) : (
@@ -68,12 +73,15 @@ export default function Multimedia({ navigation }) {
         </>
       )}
       */}
+
       {musica ? (
         <>
-          <Boton onPress={reproducirMusica} titulo={sonidoReproduciendo ? 'Pausar audio' : 'Reproducir audio'} style={styles.button2} />
+         
+          <BotonReutilizable onPress={reproducirMusica} style={styles.boton} texto={sonidoReproduciendo ? 'Pausar audio' : 'Reproducir audio'}  />
         </>
       ) : (
         <>
+          
           <Text style={{ backgroundColor: 'white', fontSize: 15, width: '80%', textAlign: 'center' }}>No cargaste ningún audio</Text>
         </>
       )}
@@ -114,5 +122,12 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 20,
     alignItems: "center",
+  },
+  boton:{
+    width: "75%",
+    backgroundColor: "#D4AF37",
+    paddingVertical: 12,
+    marginTop: 15,
+    marginBottom: 15,
   }
 });

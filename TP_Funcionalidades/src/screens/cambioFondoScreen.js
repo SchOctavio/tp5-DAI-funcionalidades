@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import appStyles from '../styles/appStyles.js';
+//import appStyles from '../styles/appStyles.js';
 
 export default function HomeScreen({ navigation, setImageGaleria }) {
   const selectImage = async () => {

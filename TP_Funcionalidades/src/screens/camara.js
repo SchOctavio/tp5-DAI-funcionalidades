@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-import Button from "../components/Button";
+import BotonReutilizable from "../components/botonReutilizable";
 import Constants from "expo-constants";
 import * as ImagePicker from "expo-image-picker";
-import appStyles from '../styles/appStyles.js';
+//import appStyles from '../styles/appStyles.js';
 import InfoService from '../class/infoService';
 
 export default function CameraScreen({ navigation }) {
@@ -57,7 +57,7 @@ export default function CameraScreen({ navigation }) {
   return (
     <View style={appStyles.container}>
       <View style={appStyles.topControls}>
-        <Button
+        <BotonReutilizable
           onPress={() =>
             setFlash(
               flash === Camera.Constants.FlashMode.off
@@ -83,7 +83,7 @@ export default function CameraScreen({ navigation }) {
               paddingHorizontal: 30,
             }}
           >
-            <Button
+            <BotonReutilizable
               title=""
               icon="retweet"
               onPress={() => {
@@ -108,15 +108,15 @@ export default function CameraScreen({ navigation }) {
               paddingHorizontal: 50,
             }}
           >
-            <Button
+            <BotonReutilizable
               title="Volver a sacar"
               onPress={() => setImage(null)}
               icon="retweet"
             />
-            <Button title="GuardarFondo" onPress={savePicture} icon="check" />
+            <BotonReutilizable title="GuardarFondo" onPress={savePicture} icon="check" />
           </View>
         ) : (
-          <Button title="Sacá una foto" onPress={takePicture} icon="camera" />
+          <BotonReutilizable title="Sacá una foto" onPress={takePicture} icon="camera" />
         )}
       </View>
     </View>
