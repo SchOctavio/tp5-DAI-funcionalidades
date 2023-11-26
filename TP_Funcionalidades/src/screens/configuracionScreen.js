@@ -17,15 +17,18 @@ export default function Configuracion({navigation}) {
   }, []);
 
   const cargarFondo = async () => {
+    try {
     {/*JSON.parse(await InfoService.traerImagenFondo()) */}
     if (await InfoService.traerImagenFondo()) { 
-      let imagenFondo = JSON.parse(await InfoService.traerImagenFondo);
+      let imagenFondo = await InfoService.traerImagenFondo();
       console.log("imagenFondo", imagenFondo);
       setImagenFondo(imagenFondo);
     }else{
       console.log("CRACK no le cargaste ningun fondo");
     }
-    
+  }catch (error){
+    console.log("el error:", error);
+  }
   }
 
   const ingresarDatos = async ()=>{
