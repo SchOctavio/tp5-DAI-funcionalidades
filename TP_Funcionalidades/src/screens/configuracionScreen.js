@@ -18,7 +18,6 @@ export default function Configuracion({navigation}) {
 
   const cargarFondo = async () => {
     try {
-    {/*JSON.parse(await InfoService.traerImagenFondo()) */}
     if (await InfoService.traerImagenFondo()) { 
       let imagenFondo = await InfoService.traerImagenFondo();
       console.log("imagenFondo", imagenFondo);
@@ -38,7 +37,7 @@ export default function Configuracion({navigation}) {
       musica:fondo
     }
     InfoService.almacenarInfo(info);
-    navigation.navigate('CambioFondo');
+    navigation.navigate('Multimedia');
 
     
   }

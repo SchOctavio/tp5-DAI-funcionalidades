@@ -5,6 +5,8 @@ import BotonReutilizable from '../components/botonReutilizable';
 import InfoService from '../class/infoService';
 
 export default function AcercaDe({navigation}) {
+
+  const [imagenFondo, setImagenFondo]= useState(null);
   
   return (
     <SafeAreaView style={styles.container}>
@@ -40,5 +42,11 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 20,
     alignItems: "center",
- }
+ },
+ fondo:{
+  width: '100%',
+  flex: 1,
+  alignItems: 'center',
+  justifyContent: 'center',
+},
 });

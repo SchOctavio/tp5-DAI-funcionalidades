@@ -1,22 +1,28 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import InfoService from '../class/infoService';
 //import appStyles from '../styles/appStyles.js';
 
 export default function CambioFondo({ navigation, setImageGaleria }) {
+  const [imagenFondo, setImagenFondo]= useState(null);
 
   useEffect(() => {
     cargarFondo();
   }, []);
 
   const cargarFondo = async () => {
-    if (JSON.parse(await InfoService.traerImagenFondo())) {
-      let imagenFondo = JSON.parse(await InfoService.traerImagenFondo);
+    try {
+    if (await InfoService.traerImagenFondo()) { 
+      let imagenFondo = await InfoService.traerImagenFondo();
       console.log("imagenFondo", imagenFondo);
-      setImage(imagenFondo);
+      setImagenFondo(imagenFondo);
+    }else{
+      console.log("CRACK no le cargaste ningun fondo");
     }
-    console.log("imagenFondo", imagenFondo);
+  }catch (error){
+    console.log("el error:", error);
+  }
   }
 
 
@@ -52,6 +58,7 @@ export default function CambioFondo({ navigation, setImageGaleria }) {
 
   return (
     <View style={styles.container}>
+      <ImageBackground source={{ uri: imagenFondo }} style={styles.fondo}>
       <Text style={styles.text}>Eliga como quiere cambiar el fondo</Text>
       <Button
         title="Abrir Cámara"
@@ -61,6 +68,7 @@ export default function CambioFondo({ navigation, setImageGaleria }) {
         title="Seleccionar Imagen"
         onPress={selectImage}
       />
+      </ImageBackground>
     </View>
   );
 }
@@ -116,5 +124,11 @@ const styles = StyleSheet.create({
   image: {
     height: 600,
     width: 600,
+  },
+  fondo:{
+    width: '100%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

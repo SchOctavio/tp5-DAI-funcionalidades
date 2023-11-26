@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput, ImageBackground } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 import BotonReutilizable from '../components/botonReutilizable';
 import InfoService from '../class/infoService';
@@ -13,7 +13,7 @@ export default function Multimedia({ navigation }) {
   const [musica, setMusica] = useState(null);
   const [sonido, setSonido] = useState();
   const [sonidoReproduciendo, setSonidoReproduciendo] = useState(false);
-
+  const [imagenFondo, setImagenFondo]= useState(null);
 
   const traerInfo = async () => {
     let info = await InfoService.obtenerCredenciales();
@@ -24,6 +24,7 @@ export default function Multimedia({ navigation }) {
 
   useEffect(() => {
     traerInfo();
+    cargarFondo();
   }, []);
 
   useEffect(() => {
@@ -32,6 +33,19 @@ export default function Multimedia({ navigation }) {
     }
   }, [sonido]);
 
+  const cargarFondo = async () => {
+    try {
+      if (await InfoService.traerImagenFondo()) {
+        let imagenFondo = await InfoService.traerImagenFondo();
+        console.log("imagenFondo", imagenFondo);
+        setImagenFondo(imagenFondo);
+      } else {
+        console.log("CRACK no le cargaste ningun fondo");
+      }
+    } catch (error) {
+      console.log("el error:", error);
+    }
+  }
   const reproducirMusica = async () => {
     console.log("contenido de sonido:", sonido);
     if (sonidoReproduciendo && sonido) {
@@ -53,43 +67,44 @@ export default function Multimedia({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {video ? (
-        <>
-          <Video
-            style={styles.video}
-            ref={videoRef}
-            source={{
-              uri: video,
-            }}
-            useNativeControls
-            resizeMode={ResizeMode.CONTAIN}
-            isLooping
-            onPlaybackStatusUpdate={status => setStatus(() => status)}
-          />
-          <BotonReutilizable onPress={() => status.isPlaying ? videoRef.current.pauseAsync() : videoRef.current.playAsync()} titulo={status.isPlaying ? 'Pausar video' : 'Reproducir video'} style={styles.button1} />
+      <ImageBackground source={{ uri: imagenFondo }} style={styles.fondo}>
+        {video ? (
+          <>
+            <Video
+              style={styles.video}
+              ref={videoRef}
+              source={{
+                uri: video,
+              }}
+              useNativeControls
+              resizeMode={ResizeMode.CONTAIN}
+              isLooping
+              onPlaybackStatusUpdate={status => setStatus(() => status)}
+            />
+            <BotonReutilizable onPress={() => status.isPlaying ? videoRef.current.pauseAsync() : videoRef.current.playAsync()} titulo={status.isPlaying ? 'Pausar video' : 'Reproducir video'} style={styles.button1} />
 
-        </>
-      ) : (
-        <>
-          <Text style={{ backgroundColor: 'white', fontSize: 15, width: '80%', textAlign: 'center' }}>No cargaste la url</Text>
-        </>
-      )}
-      
-
-      {musica ? (
-        <>
-         
-          <BotonReutilizable onPress={reproducirMusica} style={styles.boton} texto={sonidoReproduciendo ? 'Pausar audio' : 'Reproducir audio'}  />
-        </>
-      ) : (
-        <>
-          
-          <Text style={{ backgroundColor: 'white', fontSize: 15, width: '80%', textAlign: 'center' }}>No cargaste ningún audio</Text>
-        </>
-      )}
+          </>
+        ) : (
+          <>
+            <Text style={{ backgroundColor: 'white', fontSize: 15, width: '80%', textAlign: 'center' }}>No cargaste la url</Text>
+          </>
+        )}
 
 
+        {musica ? (
+          <>
 
+            <BotonReutilizable onPress={reproducirMusica} style={styles.boton} texto={sonidoReproduciendo ? 'Pausar audio' : 'Reproducir audio'} />
+          </>
+        ) : (
+          <>
+
+            <Text style={{ backgroundColor: 'white', fontSize: 15, width: '80%', textAlign: 'center' }}>No cargaste ningún audio</Text>
+          </>
+        )}
+
+
+      </ImageBackground>
     </SafeAreaView>
   );
 }
@@ -125,7 +140,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignItems: "center",
   },
-  boton:{
+  boton: {
     width: "75%",
     backgroundColor: "#D4AF37",
     paddingVertical: 12,
@@ -135,5 +150,11 @@ const styles = StyleSheet.create({
   video: {
     width: '80%',
     height: 200
-  }
+  },
+  fondo:{
+    width: '100%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
