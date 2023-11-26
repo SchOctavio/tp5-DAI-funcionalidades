@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput, ImageBackground  } from 'react-native';
 import React, { useState, useRef, useEffect} from 'react';
 import BotonReutilizable from '../components/botonReutilizable';
 import InfoService from '../class/infoService';
@@ -10,16 +10,22 @@ export default function Configuracion({navigation}) {
   const [numero, setNumero] = useState(0);
   const [url, setURL] = useState('');
   const [fondo, setFondo] = useState('');
+  const [imagenFondo, setImagenFondo]= useState(null);
 
   useEffect(() => {
     cargarFondo();
   }, []);
 
-  let cargarFondo = async () => {
-    if (JSON.parse(await InfoService.traerImagenFondo())) {
+  const cargarFondo = async () => {
+    {/*JSON.parse(await InfoService.traerImagenFondo()) */}
+    if (await InfoService.traerImagenFondo()) { 
       let imagenFondo = JSON.parse(await InfoService.traerImagenFondo);
-      setImage(imagenFondo.uri);
+      console.log("imagenFondo", imagenFondo);
+      setImagenFondo(imagenFondo);
+    }else{
+      console.log("CRACK no le cargaste ningun fondo");
     }
+    
   }
 
   const ingresarDatos = async ()=>{
@@ -35,6 +41,7 @@ export default function Configuracion({navigation}) {
   }
   return (
     <SafeAreaView style={styles.container}>
+      <ImageBackground source={{ uri: imagenFondo }} style={styles.fondo}>
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
@@ -70,6 +77,7 @@ export default function Configuracion({navigation}) {
      style={styles.loginDiferente}          
      texto="subir perfil"
      />
+     </ImageBackground>
     </SafeAreaView>
   );
 }
@@ -101,5 +109,11 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 20,
     alignItems: "center",
- }
+ }, 
+ fondo:{
+  width: '100%',
+  flex: 1,
+  alignItems: 'center',
+  justifyContent: 'center',
+},
 });

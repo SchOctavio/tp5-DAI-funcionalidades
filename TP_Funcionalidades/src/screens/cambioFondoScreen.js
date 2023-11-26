@@ -10,11 +10,13 @@ export default function CambioFondo({ navigation, setImageGaleria }) {
     cargarFondo();
   }, []);
 
-  let cargarFondo = async () => {
+  const cargarFondo = async () => {
     if (JSON.parse(await InfoService.traerImagenFondo())) {
       let imagenFondo = JSON.parse(await InfoService.traerImagenFondo);
-      setImage(imagenFondo.uri);
+      console.log("imagenFondo", imagenFondo);
+      setImage(imagenFondo);
     }
+    console.log("imagenFondo", imagenFondo);
   }
 
 

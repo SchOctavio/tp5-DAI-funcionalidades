@@ -40,6 +40,8 @@ export default function CameraScreen({ navigation }) {
     if (image) {
       try {
         const asset = await MediaLibrary.createAssetAsync(image);
+        console.log("image:", image);
+        console.log("asset:", asset);
         InfoService.guardarImagenFondo(image); //puede ser que le tenga que mandar asset en vez de image
         alert("¡Foto guardada! 🎉");
         setImage(null);
