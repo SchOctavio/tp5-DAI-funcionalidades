@@ -3,13 +3,14 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Configuracion from './src/screens/configuracionScreen';
 import AcercaDe from './src/screens/AcercaDeScren';
-import CambioFondo from './src/screens/cambioFondoScreen';
 import Multimedia from './src/screens/multimediaScreen';
 import Emergencia from './src/screens/emergenciaScreen';
+import CambioFondo from './src/screens/cambioFondoScreen'
 import { NavigationContainer } from '@react-navigation/native';
 import {createStackNavigator } from '@react-navigation/stack';
 import CameraScreen from './src/screens/camara';
 import ImageScreen from './src/screens/image';
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -32,17 +33,21 @@ export default function App() {
         component={AcercaDe}
         options={{title:'Titulo ... Acerca de'}}
         />
-        <Stack.Screen
+       {/* <Stack.Screen
         name="CambioFondo"
         component={CambioFondo}
         options={{title:'Titulo ... CambioFondo'}}
-        />
+        />*/}
         <Stack.Screen
         name="Multimedia"
         component={Multimedia}
         options={{title:'Titulo ... Multimedia'}}
         />
-
+        <Stack.Screen name="CambioFondo">
+        {(props) => (
+            <CambioFondo {...props} setImageGaleria={setImageGaleria} />
+          )}
+        </Stack.Screen>
         <Stack.Screen name="Camera" component={CameraScreen} />
         <Stack.Screen name="ImageScreen">
           {(props) => <ImageScreen {...props} imageUri={imageGaleria} />}

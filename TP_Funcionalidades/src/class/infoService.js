@@ -38,8 +38,8 @@ class InfoService {
   
   static guardarImagenFondo = async (imagen) =>{
     try 
-    {    
-      await AsyncStorage.setItem(FONDO_KEY, imagen);  
+    {  
+      await AsyncStorage.setItem(FONDO_KEY, imagen);
     } 
     catch(e) {    
       // error  

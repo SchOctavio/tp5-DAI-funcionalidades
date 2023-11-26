@@ -8,12 +8,12 @@ export default function ImageScreen({ route, navigation }) {
   const imageUri = route?.params?.imageUri || null;
   console.log('Image URI recibida:', imageUri);
   return (
-    <View style={appStyles.container}>
+    <View style={styles.container}>
       {imageUri ? (
         <>
-          <Image source={{ uri: imageUri }} style={appStyles.image} />
+          <Image source={{ uri: imageUri }} style={styles.image}/>
           <TouchableOpacity
-            style={appStyles.goBackButton}
+            style={styles.goBackButton}
             onPress={() => navigation.goBack()}
           >
             <MaterialIcons name="arrow-back" size={30} color="white" />
@@ -25,3 +25,29 @@ export default function ImageScreen({ route, navigation }) {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+camera: {
+  flex: 1,
+  width: '100%', 
+  height: '100%', 
+},
+topControls: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  paddingHorizontal: 30,
+},
+controls: {
+  flex: 0.5,
+},
+goBackButton: {},
+image: {
+  height: 600,
+  width: 600,
+},
+});

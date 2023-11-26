@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-import BotonReutilizable from "../components/botonReutilizable";
+import BotonCamara from "../components/botonCamara";
 import Constants from "expo-constants";
 import * as ImagePicker from "expo-image-picker";
 //import appStyles from '../styles/appStyles.js';
@@ -55,9 +55,9 @@ export default function CameraScreen({ navigation }) {
   }
 
   return (
-    <View style={appStyles.container}>
-      <View style={appStyles.topControls}>
-        <BotonReutilizable
+    <View style={styles.container}>
+      <View style={styles.topControls}>
+        <BotonCamara
           onPress={() =>
             setFlash(
               flash === Camera.Constants.FlashMode.off
@@ -71,7 +71,7 @@ export default function CameraScreen({ navigation }) {
       </View>
       {!image ? (
         <Camera
-          style={appStyles.camera}
+          style={styles.camera}
           type={type}
           ref={cameraRef}
           flashMode={flash}
@@ -83,7 +83,7 @@ export default function CameraScreen({ navigation }) {
               paddingHorizontal: 30,
             }}
           >
-            <BotonReutilizable
+            <BotonCamara
               title=""
               icon="retweet"
               onPress={() => {
@@ -97,9 +97,9 @@ export default function CameraScreen({ navigation }) {
           </View>
         </Camera>
       ) : (
-        <Image source={{ uri: image }} style={appStyles.camera} />
+        <Image source={{ uri: image }} style={styles.camera} />
       )}
-      <View style={appStyles.controls}>
+      <View style={styles.controls}>
         {image ? (
           <View
             style={{
@@ -108,17 +108,55 @@ export default function CameraScreen({ navigation }) {
               paddingHorizontal: 50,
             }}
           >
-            <BotonReutilizable
+            <BotonCamara
               title="Volver a sacar"
               onPress={() => setImage(null)}
               icon="retweet"
             />
-            <BotonReutilizable title="GuardarFondo" onPress={savePicture} icon="check" />
+            <BotonCamara title="GuardarFondo" onPress={savePicture} icon="check" />
           </View>
         ) : (
-          <BotonReutilizable title="Sacá una foto" onPress={takePicture} icon="camera" />
+          <BotonCamara title="Sacá una foto" onPress={takePicture} icon="camera" />
         )}
       </View>
     </View>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+camera: {
+  flex: 1,
+  width: '100%', 
+  height: '100%', 
+},
+topControls: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  paddingHorizontal: 30,
+},
+controls: {
+  flex: 0.5,
+},
+goBackButton: {},
+image: {
+  height: 600,
+  width: 600,
+},
+button: {
+  height: 40,
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+},
+text: {
+  fontWeight: 'bold',
+  fontSize: 16,
+  color: '#000000',
+      marginLeft: 10,
+},
+});

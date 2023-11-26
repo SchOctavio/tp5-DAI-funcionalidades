@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, TextInput } from 'react-native';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect} from 'react';
 import BotonReutilizable from '../components/botonReutilizable';
 import InfoService from '../class/infoService';
 import Accelerometerr from '../components/Accelerometer';
@@ -11,7 +11,16 @@ export default function Configuracion({navigation}) {
   const [url, setURL] = useState('');
   const [fondo, setFondo] = useState('');
 
+  useEffect(() => {
+    cargarFondo();
+  }, []);
 
+  let cargarFondo = async () => {
+    if (JSON.parse(await InfoService.traerImagenFondo())) {
+      let imagenFondo = JSON.parse(await InfoService.traerImagenFondo);
+      setImage(imagenFondo.uri);
+    }
+  }
 
   const ingresarDatos = async ()=>{
     let info={
@@ -20,7 +29,7 @@ export default function Configuracion({navigation}) {
       musica:fondo
     }
     InfoService.almacenarInfo(info);
-    navigation.navigate('Multimedia');
+    navigation.navigate('CambioFondo');
 
     
   }
