@@ -41,6 +41,7 @@ export default function CambioFondo({ navigation, setImageGaleria }) {
         console.log(result);
         const path = result.assets[0].uri;
         setImageGaleria(path);
+        InfoService.guardarImagenFondo(path);
         console.log("Imagen seleccionada:", path);
         navigation.navigate("ImageScreen", { imageUri: path });
       }
