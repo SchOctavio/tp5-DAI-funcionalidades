@@ -6,6 +6,8 @@ import InfoService from '../class/infoService';
 import { Video, ResizeMode, Audio } from 'expo-av';
 
 export default function Multimedia({ navigation }) {
+
+  const videoRef = useRef(null);
   const [status, setStatus] = React.useState({});
   const [video, setVideo] = useState(null);
   const [musica, setMusica] = useState(null);
@@ -51,11 +53,11 @@ export default function Multimedia({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/*{video ? (
+      {video ? (
         <>
           <Video
             style={styles.video}
-            ref={video1}
+            ref={videoRef}
             source={{
               uri: video,
             }}
@@ -64,7 +66,7 @@ export default function Multimedia({ navigation }) {
             isLooping
             onPlaybackStatusUpdate={status => setStatus(() => status)}
           />
-          <BotonReutilizable onPress={() => status.isPlaying ? video1.current.pauseAsync() : video1.current.playAsync()} titulo={status.isPlaying ? 'Pausar video' : 'Reproducir video'} style={styles.button1} />
+          <BotonReutilizable onPress={() => status.isPlaying ? videoRef.current.pauseAsync() : videoRef.current.playAsync()} titulo={status.isPlaying ? 'Pausar video' : 'Reproducir video'} style={styles.button1} />
 
         </>
       ) : (
@@ -72,7 +74,7 @@ export default function Multimedia({ navigation }) {
           <Text style={{ backgroundColor: 'white', fontSize: 15, width: '80%', textAlign: 'center' }}>No cargaste la url</Text>
         </>
       )}
-      */}
+      
 
       {musica ? (
         <>
@@ -129,5 +131,9 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     marginTop: 15,
     marginBottom: 15,
+  },
+  video: {
+    width: '80%',
+    height: 200
   }
 });
