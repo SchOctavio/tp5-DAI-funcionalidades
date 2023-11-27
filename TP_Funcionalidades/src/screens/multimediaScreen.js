@@ -1,25 +1,34 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, TextInput, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ImageBackground } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 import BotonReutilizable from '../components/botonReutilizable';
 import InfoService from '../class/infoService';
 import { Video, ResizeMode, Audio } from 'expo-av';
+import Menu from '../components/menu';
 
 export default function Multimedia({ navigation }) {
-
   const videoRef = useRef(null);
-  const [status, setStatus] = React.useState({});
+  const [status, setStatus] = useState({});
   const [video, setVideo] = useState(null);
   const [musica, setMusica] = useState(null);
   const [sonido, setSonido] = useState();
   const [sonidoReproduciendo, setSonidoReproduciendo] = useState(false);
-  const [imagenFondo, setImagenFondo]= useState(null);
+  const [imagenFondo, setImagenFondo] = useState(null);
 
   const traerInfo = async () => {
-    let info = await InfoService.obtenerCredenciales();
-    console.log("la info de async storage", info);
-    await setVideo(info.url);
-    await setMusica(info.musica);
+    try {
+      let info = await InfoService.obtenerCredenciales();
+      console.log("la info de async storage", info);
+
+      if (info) {
+        setVideo(info.url);
+        setMusica(info.musica);
+      } else {
+        console.log("No se pudo obtener la información.");
+      }
+    } catch (error) {
+      console.log("Error al obtener información:", error);
+    }
   }
 
   useEffect(() => {
@@ -35,34 +44,46 @@ export default function Multimedia({ navigation }) {
 
   const cargarFondo = async () => {
     try {
-      if (await InfoService.traerImagenFondo()) {
-        let imagenFondo = await InfoService.traerImagenFondo();
-        console.log("imagenFondo", imagenFondo);
-        setImagenFondo(imagenFondo);
+      let fondo = await InfoService.traerImagenFondo();
+      if (fondo) {
+        console.log("imagenFondo", fondo);
+        setImagenFondo(fondo);
       } else {
-        console.log("CRACK no le cargaste ningun fondo");
+        console.log("No se cargó ninguna imagen de fondo.");
       }
     } catch (error) {
-      console.log("el error:", error);
+      console.log("Error al cargar el fondo:", error);
     }
   }
+
   const reproducirMusica = async () => {
-    console.log("contenido de sonido:", sonido);
-    if (sonidoReproduciendo && sonido) {
-      setSonidoReproduciendo(false);
-      console.log('Unloading Sound');
-      await sonido.pauseAsync();
-      sonido.unloadAsync();
-    } else {
-      setSonidoReproduciendo(true);
-      console.log('Loading Sound');
-      const { sound } = await Audio.Sound.createAsync({ uri: musica }, { volume: 0.8 });
-      setSonido(sound);
+    try {
+      if (sonidoReproduciendo && sonido) {
+        setSonidoReproduciendo(false);
+        console.log('Unloading Sound');
+        await sonido.pauseAsync();
+        await sonido.unloadAsync();
+      } else {
+        setSonidoReproduciendo(true);
+        console.log('Loading Sound');
+        const { sound } = await Audio.Sound.createAsync(
+          { uri: musica },
+          { volume: 0.8 }
+        );
+        setSonido(sound);
+      }
+    } catch (error) {
+      console.log("Error al reproducir música:", error);
     }
   }
+
   const reproducirSonido = async () => {
-    setSonidoReproduciendo(true)
-    await sonido.playAsync();
+    try {
+      setSonidoReproduciendo(true);
+      await sonido.playAsync();
+    } catch (error) {
+      console.log("Error al reproducir sonido:", error);
+    }
   }
 
   return (
@@ -81,36 +102,35 @@ export default function Multimedia({ navigation }) {
               isLooping
               onPlaybackStatusUpdate={status => setStatus(() => status)}
             />
-            <BotonReutilizable onPress={() => status.isPlaying ? videoRef.current.pauseAsync() : videoRef.current.playAsync()} titulo={status.isPlaying ? 'Pausar video' : 'Reproducir video'} style={styles.button1} />
-
+            <BotonReutilizable
+              onPress={() =>
+                status.isPlaying
+                  ? videoRef.current.pauseAsync()
+                  : videoRef.current.playAsync()
+              }
+              titulo={status.isPlaying ? 'Pausar video' : 'Reproducir video'}
+              style={styles.button1}
+            />
           </>
         ) : (
-          <>
-            <Text style={{ backgroundColor: 'white', fontSize: 15, width: '80%', textAlign: 'center' }}>No cargaste la url</Text>
-          </>
+          <Text style={{ backgroundColor: 'white', fontSize: 15, width: '80%', textAlign: 'center' }}>No cargaste la url</Text>
         )}
-
 
         {musica ? (
-          <>
-
-            <BotonReutilizable onPress={reproducirMusica} style={styles.boton} texto={sonidoReproduciendo ? 'Pausar audio' : 'Reproducir audio'} />
-          </>
+          <BotonReutilizable
+            onPress={reproducirMusica}
+            style={styles.boton}
+            texto={sonidoReproduciendo ? 'Pausar audio' : 'Reproducir audio'}
+          />
         ) : (
-          <>
-
-            <Text style={{ backgroundColor: 'white', fontSize: 15, width: '80%', textAlign: 'center' }}>No cargaste ningún audio</Text>
-          </>
+          <Text style={{ backgroundColor: 'white', fontSize: 15, width: '80%', textAlign: 'center' }}>No cargaste ningún audio</Text>
         )}
 
-
+        <Menu navigation={navigation} />
       </ImageBackground>
     </SafeAreaView>
   );
 }
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -119,39 +139,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  loginDiferente: {
-    width: "75%",
-    backgroundColor: "#D4AF37",
-    paddingVertical: 12,
-    marginTop: 15,
-    marginBottom: 15,
-  },
-  TextInput: {
-    height: 50,
-    flex: 1,
-    padding: 10,
-    marginLeft: 20,
-  },
-  inputView: {
-    backgroundColor: "#4b9197",
-    borderRadius: 30,
-    width: "70%",
-    height: 45,
-    marginBottom: 20,
-    alignItems: "center",
-  },
   boton: {
-    width: "75%",
-    backgroundColor: "#D4AF37",
+    width: '75%',
+    backgroundColor: '#D4AF37',
     paddingVertical: 12,
     marginTop: 15,
     marginBottom: 15,
   },
   video: {
     width: '80%',
-    height: 200
+    height: 200,
   },
-  fondo:{
+  fondo: {
     width: '100%',
     flex: 1,
     alignItems: 'center',
