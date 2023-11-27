@@ -48,23 +48,24 @@ export default function Emergencia({ navigation }) {
     }
   }
 
-  const mandarWhatsapp = () => {
-    if(numero){
-    const whatsappNo = "549" + numero;
+  const mandarWhatsapp = async () => {
     console.log("numero mandar   wpp", numero);
+    //if(numero){
+    const whatsappNo = "549" + numero;
+    
     const whatsappMsg = "hola";
-    Linking.openURL(`whatsapp://send?phone=${whatsappNo}&text=${whatsappMsg}`);
-  }else{
-    AvisarError("no ingresaste ningún numero");
-  }
+    await Linking.openURL(`whatsapp://send?phone=${whatsappNo}&text=${whatsappMsg}`);
+  //}else{
+    //AvisarError("no ingresaste ningún numero");
+  //}
   }
   
   const traerInfo = async () => {
     try {
       let info = await InfoService.obtenerCredenciales();
       console.log("la info de async storage", info);
-      setNumero(info.numero);
-      console.log(parseInt(info.numero));
+      await setNumero(info.numero);
+      console.log(info.numero);
     } catch (error) {
       console.error("Error fetching data:", error);
     }

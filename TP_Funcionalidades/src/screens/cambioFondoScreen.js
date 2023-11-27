@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, ImageBackground } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import InfoService from '../class/infoService';
 //import appStyles from '../styles/appStyles.js';
