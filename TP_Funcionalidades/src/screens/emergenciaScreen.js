@@ -15,6 +15,7 @@ export default function Emergencia({ navigation }) {
     z: 0,
   });
   const [subscription, setSubscription] = useState(null);
+  //let string= InfoService.obtenerInfo() ? InfoService.obtenerInfo() : null;
   const [numero, setNumero] = useState(null);
   const [imagenFondo, setImagenFondo]= useState(null);
 
@@ -23,13 +24,15 @@ export default function Emergencia({ navigation }) {
 
   useEffect(() => {
     const fetchData = async () => {
-       traerInfo();
+      await cargarFondo();
+      await traerInfo();
       _subscribe();
       _slow();
+     
     };
-
+    
     fetchData();
-    cargarFondo();
+    
     return () => _unsubscribe();
   }, []);
 
@@ -48,26 +51,38 @@ export default function Emergencia({ navigation }) {
     }
   }
 
-  const mandarWhatsapp =  () => {
-    console.log("numero mandar   wpp", numero);
-    //if(numero){
-    const whatsappNo = "549" + numero;
+  const chequearNumero = async ()=> {
+    if ((await InfoService.obtenerInfo()).numero) {
+     let datos = InfoService.obtenerInfo();
+      mandarWhatsapp((await datos).numero);
+    } else {
+      AvisarError("no cargaste el telefono");
+    }
     
+  }
+
+  const mandarWhatsapp = (num) => {
+    console.log("numero mandar   wpp", num);
+    //if(numero){
+    const whatsappNo = "549" + num;
     const whatsappMsg = "hola";
     Linking.openURL(`whatsapp://send?phone=${whatsappNo}&text=${whatsappMsg}`);
-    console.log("numero mandar despues  wpp", numero);
+    console.log("numero mandar despues  wpp", num);
   //}else{
     //AvisarError("no ingresaste ningún numero");
   //}
   }
   
   const traerInfo = async () => {
-    
-      let info = await InfoService.obtenerCredenciales();
+    try{  
+    let info = await InfoService.obtenerInfo();
       console.log("la info de async storage", info);
       setNumero(info.numero);
       console.log(info.numero);
-    
+      console.log(numero);
+    }catch(error){
+      console.log("error en traer info", error);
+    }
   };
 
   const _subscribe = () => {
@@ -76,13 +91,15 @@ export default function Emergencia({ navigation }) {
       auxiliarX = x;
       if (accelerometerData.x < auxiliarX) {
         if ((auxiliarX - accelerometerData.x) > 0.5) {
-          mandarWhatsapp();
+          console.log("entre");
+          chequearNumero();
           console.log("numero if wpp", numero);
         }
       } else {
         if ((accelerometerData.x - auxiliarX) > 0.5) {
           if ((auxiliarX - accelerometerData.x) > 0.5) {
-            mandarWhatsapp();
+            console.log("entre");
+            chequearNumero();
             console.log("numero else wpp", numero);
           }
         }

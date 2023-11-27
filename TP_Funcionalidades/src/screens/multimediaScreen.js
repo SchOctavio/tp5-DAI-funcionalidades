@@ -17,7 +17,7 @@ export default function Multimedia({ navigation }) {
 
   const traerInfo = async () => {
     try {
-      let info = await InfoService.obtenerCredenciales();
+      let info = await InfoService.obtenerInfo();
       console.log("la info de async storage", info);
 
       if (info) {

@@ -21,7 +21,7 @@ class InfoService {
       // error  
     } 
   };
-  static obtenerCredenciales = async () => {
+  static obtenerInfo = async () => {
     let  returnValue;
     const storedNumero = await AsyncStorage.getItem(NUMERO_KEY); 
     const storedURL = await AsyncStorage.getItem(URL_KEY);
