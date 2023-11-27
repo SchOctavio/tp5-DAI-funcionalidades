@@ -7,6 +7,8 @@ import {
   TextInput,
   ImageBackground,
   Image,
+  Clipboard,
+  TouchableOpacity
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import BotonReutilizable from "../components/botonReutilizable";
@@ -19,6 +21,8 @@ export default function AcercaDe({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [dataScanner, setDataScanner] = useState("");
+
+
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -31,8 +35,11 @@ export default function AcercaDe({ navigation }) {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     setDataScanner(data);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
+
+  const copiarData = ()=>{
+    Clipboard.setString(dataScanner);   
+  }
 
   const cargarFondo = async () => {
     try {
@@ -67,12 +74,15 @@ export default function AcercaDe({ navigation }) {
           </>
         ) : (
           <>
-            <Image
-              source={require("../../assets/barcodeGOD.jpg")}
-            />
           </>
         )}
       </ImageBackground>
+        <TouchableOpacity onPress={copiarData}>
+          <Text>copiar al Clipboard</Text>
+        </TouchableOpacity>
+      <Image
+              source={require("../../assets/barcodeGOD.jpg")}
+            />
     </SafeAreaView>
   );
 }
