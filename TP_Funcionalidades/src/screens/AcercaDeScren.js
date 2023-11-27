@@ -1,5 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView, TextInput, ImageBackground } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  TextInput,
+  ImageBackground,
+  Image,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import BotonReutilizable from "../components/botonReutilizable";
 import InfoService from "../class/infoService";
@@ -49,17 +57,21 @@ export default function AcercaDe({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={{ uri: imagenFondo }} style={styles.fondo}>
-      <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
-      {scanned ? (
-      <>
-      <Modals setShowModal={setScanned} data={dataScanner} />
-      </>
-      ):(
-        <></>
-      )}
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+        {scanned ? (
+          <>
+            <Modals setShowModal={setScanned} data={dataScanner} />
+          </>
+        ) : (
+          <>
+            <Image
+              source={require("../../assets/barcodeGOD.jpg")}
+            />
+          </>
+        )}
       </ImageBackground>
     </SafeAreaView>
   );
