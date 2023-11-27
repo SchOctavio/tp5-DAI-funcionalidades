@@ -23,7 +23,7 @@ export default function Emergencia({ navigation }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      await traerInfo();
+       traerInfo();
       _subscribe();
       _slow();
     };
@@ -48,27 +48,26 @@ export default function Emergencia({ navigation }) {
     }
   }
 
-  const mandarWhatsapp = async () => {
+  const mandarWhatsapp =  () => {
     console.log("numero mandar   wpp", numero);
     //if(numero){
     const whatsappNo = "549" + numero;
     
     const whatsappMsg = "hola";
-    await Linking.openURL(`whatsapp://send?phone=${whatsappNo}&text=${whatsappMsg}`);
+    Linking.openURL(`whatsapp://send?phone=${whatsappNo}&text=${whatsappMsg}`);
+    console.log("numero mandar despues  wpp", numero);
   //}else{
     //AvisarError("no ingresaste ningún numero");
   //}
   }
   
   const traerInfo = async () => {
-    try {
+    
       let info = await InfoService.obtenerCredenciales();
       console.log("la info de async storage", info);
-      await setNumero(info.numero);
+      setNumero(info.numero);
       console.log(info.numero);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    
   };
 
   const _subscribe = () => {
