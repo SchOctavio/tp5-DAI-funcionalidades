@@ -29,7 +29,7 @@ export default function Configuracion({navigation}) {
     console.log("el error:", error);
   }
   }
-
+  
   const ingresarDatos = async ()=>{
     let info={
       numero:numero,
@@ -37,9 +37,7 @@ export default function Configuracion({navigation}) {
       musica:fondo
     }
     InfoService.almacenarInfo(info);
-    navigation.navigate('AcercaDe');
-
-    
+    navigation.navigate('Emergencia');
   }
   return (
     <SafeAreaView style={styles.container}>

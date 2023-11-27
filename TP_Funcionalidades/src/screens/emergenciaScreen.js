@@ -6,7 +6,7 @@ import ShakeEvent from 'react-native-shake-event';
 import Menu from '../components/menu';
 import BotonReutilizable from '../components/botonReutilizable';
 import InfoService from '../class/infoService';
-
+import AvisarError from '../class/mensajesUsuario';
 export default function Emergencia({ navigation }) {
 
   const [{ x, y, z }, setData] = useState({
@@ -49,11 +49,16 @@ export default function Emergencia({ navigation }) {
   }
 
   const mandarWhatsapp = () => {
+    if(numero){
     const whatsappNo = "549" + numero;
     console.log("numero mandar   wpp", numero);
     const whatsappMsg = "hola";
     Linking.openURL(`whatsapp://send?phone=${whatsappNo}&text=${whatsappMsg}`);
+  }else{
+    AvisarError("no ingresaste ningún numero");
   }
+  }
+  
   const traerInfo = async () => {
     try {
       let info = await InfoService.obtenerCredenciales();
@@ -93,7 +98,7 @@ export default function Emergencia({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ImageBackground source={{ uri: imagenFondo }} style={styles.fondo}>
         <Text>¡Agita tu dispositivo para llamar a la función!</Text>
-        <Menu navigation={navigation} />
+        <Menu navigation={navigation}/>
 
       </ImageBackground>
     </SafeAreaView>
