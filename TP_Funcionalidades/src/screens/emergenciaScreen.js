@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, Linking, ImageBackground } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
-import BotonReutilizable from '../components/botonReutilizable';
-import InfoService from '../class/infoService';
 import { Accelerometer } from 'expo-sensors';
 import ShakeEvent from 'react-native-shake-event';
 import Menu from '../components/menu';
+import BotonReutilizable from '../components/botonReutilizable';
+import InfoService from '../class/infoService';
 
 export default function Emergencia({ navigation }) {
 
@@ -94,6 +94,7 @@ export default function Emergencia({ navigation }) {
       <ImageBackground source={{ uri: imagenFondo }} style={styles.fondo}>
         <Text>¡Agita tu dispositivo para llamar a la función!</Text>
         <Menu navigation={navigation} />
+
       </ImageBackground>
     </SafeAreaView>
   );
