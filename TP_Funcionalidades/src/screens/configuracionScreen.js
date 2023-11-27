@@ -37,7 +37,7 @@ export default function Configuracion({navigation}) {
       musica:fondo
     }
     InfoService.almacenarInfo(info);
-    navigation.navigate('Multimedia');
+    navigation.navigate('AcercaDe');
 
     
   }
