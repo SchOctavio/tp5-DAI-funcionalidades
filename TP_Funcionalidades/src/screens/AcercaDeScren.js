@@ -4,13 +4,13 @@ import React, { useState, useEffect } from "react";
 import BotonReutilizable from "../components/botonReutilizable";
 import InfoService from "../class/infoService";
 import { BarCodeScanner } from "expo-barcode-scanner";
-
+import Modals from "../components/modal";
 
 export default function AcercaDe({ navigation }) {
   const [imagenFondo, setImagenFondo] = useState(null);
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-
+  const [dataScanner, setDataScanner] = useState("");
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -22,6 +22,7 @@ export default function AcercaDe({ navigation }) {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
+    setDataScanner(data);
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
@@ -52,11 +53,12 @@ export default function AcercaDe({ navigation }) {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      {scanned && (
-        <BotonReutilizable
-          title={"Tap to Scan Again"}
-          onPress={() => setScanned(false)}
-        />
+      {scanned ? (
+      <>
+      <Modals setShowModal={setScanned} data={dataScanner} />
+      </>
+      ):(
+        <></>
       )}
       </ImageBackground>
     </SafeAreaView>
@@ -96,5 +98,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  boton: {
+    width: "75%",
+    backgroundColor: "#D4AF37",
+    paddingVertical: 12,
+    marginTop: 15,
+    marginBottom: 15,
   },
 });

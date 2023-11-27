@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {Alert, Modal, StyleSheet, Text, Pressable, View, Text} from 'react-native';
+import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 
-const Modals = ({setShowModal}) => {
+const Modals = ({setShowModal, data}) => {
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -15,7 +15,7 @@ const Modals = ({setShowModal}) => {
           
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text>HUBO UN ERROR</Text>
+            <Text>la data del codigo de barras es:{data}</Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setShowModal(false)}>
