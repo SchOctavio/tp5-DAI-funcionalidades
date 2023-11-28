@@ -11,6 +11,8 @@ export default function Configuracion({navigation}) {
   const [url, setURL] = useState('');
   const [fondo, setFondo] = useState('');
   const [imagenFondo, setImagenFondo]= useState(null);
+  const videoRef = useRef();
+  const musicaRef= useRef();
 
   useEffect(() => {
     cargarFondo();
@@ -48,8 +50,8 @@ export default function Configuracion({navigation}) {
           placeholder="Numero telefónico"
           onChangeText={(num) => setNumero(num)}
           keyboardType="numeric"
-
-         // onSubmitEditing={()=>{passwordRef.current.focus();}}
+          returnKeyType='next'
+          onSubmitEditing={()=>{videoRef.current.focus();}}
         /> 
      </View>
      <View style={styles.inputView}>
@@ -58,7 +60,8 @@ export default function Configuracion({navigation}) {
           placeholder="Url video"
           onChangeText={(video) => setURL(video)}
           returnKeyType='next'
-         // onSubmitEditing={()=>{passwordRef.current.focus();}}
+          ref={videoRef} 
+          onSubmitEditing={()=>{musicaRef.current.focus();}}
         /> 
      </View>
      <View style={styles.inputView}>
@@ -66,8 +69,8 @@ export default function Configuracion({navigation}) {
           style={styles.TextInput}
           placeholder="Url musica de fondo"
           onChangeText={(urlFondo) => setFondo(urlFondo)}
-          returnKeyType='next'
-         // onSubmitEditing={()=>{passwordRef.current.focus();}}
+          ref={musicaRef} 
+         
         /> 
      </View>
     
