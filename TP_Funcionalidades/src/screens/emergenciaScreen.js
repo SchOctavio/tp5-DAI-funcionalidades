@@ -58,19 +58,14 @@ export default function Emergencia({ navigation }) {
     } else {
       AvisarError("no cargaste el telefono");
     }
-    
   }
 
   const mandarWhatsapp = (num) => {
     console.log("numero mandar   wpp", num);
-    //if(numero){
     const whatsappNo = "549" + num;
     const whatsappMsg = "hola";
     Linking.openURL(`whatsapp://send?phone=${whatsappNo}&text=${whatsappMsg}`);
     console.log("numero mandar despues  wpp", num);
-  //}else{
-    //AvisarError("no ingresaste ningún numero");
-  //}
   }
   
   const traerInfo = async () => {
