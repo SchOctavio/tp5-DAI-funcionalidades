@@ -4,7 +4,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Accelerometer } from 'expo-sensors';
 import ShakeEvent from 'react-native-shake-event';
 import Menu from '../components/menu';
-import BotonReutilizable from '../components/botonReutilizable';
 import InfoService from '../class/infoService';
 import AvisarError from '../class/mensajesUsuario';
 export default function Emergencia({ navigation }) {

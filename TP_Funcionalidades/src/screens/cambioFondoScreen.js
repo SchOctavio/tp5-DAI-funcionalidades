@@ -3,6 +3,7 @@ import { View, Text, Button, StyleSheet, ImageBackground } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import InfoService from '../class/infoService';
 //import appStyles from '../styles/appStyles.js';
+import Menu from "../components/menu";
 
 export default function CambioFondo({ navigation, setImageGaleria }) {
   const [imagenFondo, setImagenFondo]= useState(null);
@@ -68,6 +69,7 @@ export default function CambioFondo({ navigation, setImageGaleria }) {
         title="Seleccionar Imagen"
         onPress={selectImage}
       />
+       <Menu navigation={navigation} />
       </ImageBackground>
     </View>
   );

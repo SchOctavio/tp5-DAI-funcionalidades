@@ -5,6 +5,7 @@ import BotonReutilizable from '../components/botonReutilizable';
 import InfoService from '../class/infoService';
 import { Video, ResizeMode, Audio } from 'expo-av';
 import Menu from '../components/menu';
+import AvisarError from '../class/mensajesUsuario';
 
 export default function Multimedia({ navigation }) {
   const videoRef = useRef(null);
@@ -23,8 +24,12 @@ export default function Multimedia({ navigation }) {
       if (info) {
         setVideo(info.url);
         setMusica(info.musica);
+        if(info.url==null){
+          AvisarError("no cargaste el video");
+        }
       } else {
-        console.log("No se pudo obtener la información.");
+        AvisarError("no cargaste ningún dato");
+        
       }
     } catch (error) {
       console.log("Error al obtener información:", error);
@@ -60,12 +65,11 @@ export default function Multimedia({ navigation }) {
     try {
       if (sonidoReproduciendo && sonido) {
         setSonidoReproduciendo(false);
-        console.log('Unloading Sound');
         await sonido.pauseAsync();
         await sonido.unloadAsync();
       } else {
         setSonidoReproduciendo(true);
-        console.log('Loading Sound');
+        
         const { sound } = await Audio.Sound.createAsync(
           { uri: musica },
           { volume: 0.8 }
@@ -74,6 +78,7 @@ export default function Multimedia({ navigation }) {
       }
     } catch (error) {
       console.log("Error al reproducir música:", error);
+      AvisarError("la url de la musica es invalida")
     }
   }
 
