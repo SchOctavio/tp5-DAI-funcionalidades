@@ -102,15 +102,6 @@ export default function Multimedia({ navigation }) {
               isLooping
               onPlaybackStatusUpdate={status => setStatus(() => status)}
             />
-            <BotonReutilizable
-              onPress={() =>
-                status.isPlaying
-                  ? videoRef.current.pauseAsync()
-                  : videoRef.current.playAsync()
-              }
-              titulo={status.isPlaying ? 'Pausar video' : 'Reproducir video'}
-              style={styles.button1}
-            />
           </>
         ) : (
           <Text style={{ backgroundColor: 'white', fontSize: 15, width: '80%', textAlign: 'center' }}>No cargaste la url</Text>
@@ -148,7 +139,7 @@ const styles = StyleSheet.create({
   },
   video: {
     width: '80%',
-    height: 200,
+    height: 250,
   },
   fondo: {
     width: '100%',
